@@ -35,6 +35,7 @@
             validate:minNumber="4"
             validate:testType="numericRange" />
 
+        <!--
         <info.nightscout.androidaps.utils.textValidator.ValidatingEditTextPreference
             android:defaultValue="3"
             android:dialogMessage="@string/openapsama_postmeal_ISF_duration_summary"
@@ -48,7 +49,7 @@
             validate:maxNumber="10"
             validate:minNumber="1"
             validate:testType="numericRange" />
-
+-->
         <androidx.preference.PreferenceScreen
             android:key="absorption_oref1_advanced"
             android:title="@string/advancedsettings_title">
@@ -108,6 +109,7 @@
                 validate:floatminNumber="0"
                 validate:testType="floatNumericRange" />
 
+            <!--
             <info.nightscout.androidaps.utils.textValidator.ValidatingEditTextPreference
                 android:defaultValue="0.2"
                 android:dialogMessage="@string/openapsama_lower_ISFrange_weight_summary"
@@ -163,7 +165,7 @@
                 validate:floatmaxNumber="2"
                 validate:floatminNumber="0"
                 validate:testType="floatNumericRange" />
-
+-->
 
         </androidx.preference.PreferenceScreen>
 

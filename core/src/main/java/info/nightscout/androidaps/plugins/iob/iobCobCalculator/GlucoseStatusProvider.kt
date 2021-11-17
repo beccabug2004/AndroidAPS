@@ -46,6 +46,7 @@ class GlucoseStatusProvider @Inject constructor(
                 autoISF_duration = 0.0,
                 autoISF_average = now.value,
                 // mod 8: set 3 variables for deltas based on linear regression
+                /*
                 slope05 = 0.0, // wait for longer history
                 slope15 = 0.0, // wait for longer history
                 slope40 = 0.0, // wait for longer history
@@ -54,6 +55,7 @@ class GlucoseStatusProvider @Inject constructor(
                 delta_pl = 0.0,
                 delta_pn = 0.0,
                 r_squ = 0.0
+                */
             ).asRounded()
         }
         val nowValueList = ArrayList<Double>()
@@ -128,11 +130,10 @@ class GlucoseStatusProvider @Inject constructor(
                 break
             }
         }
-        var autoISFAverage = oldavg
-        var autoISFDuration = minutesdur.toDouble()
 
         // mod 8: calculate 3 variables for deltas based on linear regression
         // initially just test the handling of arguments
+        /*
         var slope05 = 1.05
         var slope15 = 1.15
         var slope40 = 1.40
@@ -276,7 +277,7 @@ class GlucoseStatusProvider @Inject constructor(
                 }
             }
         }
-
+*/
 
 // Ende
         return GlucoseStatus(
@@ -288,13 +289,13 @@ class GlucoseStatusProvider @Inject constructor(
             longAvgDelta = average(longDeltas),
             autoISF_average = oldavg,
             autoISF_duration = minutesdur.toDouble(),
-            slope05 = slope05,
+            /*slope05 = slope05,
             slope15 = slope15,
             slope40 = slope40,
             dura_p = duraP,
             delta_pl = deltaPl,
             delta_pn = deltaPn,
-            r_squ = rSqu
+            r_squ = rSqu */
         ).also { aapsLogger.debug(LTag.GLUCOSE, it.log()) }.asRounded()
     }
 

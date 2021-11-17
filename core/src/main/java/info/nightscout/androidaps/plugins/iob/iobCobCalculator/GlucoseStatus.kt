@@ -16,16 +16,16 @@ data class GlucoseStatus(
     val autoISF_average: Double = 0.0,
 
     // mod 8: append 3 valiables for deltas based on regression analysis
-    val slope05: Double = 0.0,
-    val slope15: Double = 0.0,
-    val slope40: Double = 0.0,
+    //val slope05: Double = 0.0,
+    //val slope15: Double = 0.0,
+    //val slope40: Double = 0.0,
 
     // mod 14f: append results from best fitting parabola
-    val dura_p: Double = 0.0,
-    val delta_pl: Double = 0.0,
-    val delta_pn: Double = 0.0,
-    val r_squ: Double = 0.0,
-    val pp_debug: String = "; debug:"
+    //val dura_p: Double = 0.0,
+    //val delta_pl: Double = 0.0,
+    //val delta_pn: Double = 0.0,
+    //val r_squ: Double = 0.0,
+    //val pp_debug: String = "; debug:"
 
 ) {
 
@@ -35,7 +35,8 @@ data class GlucoseStatus(
         "Short avg. delta: " + " " + DecimalFormatter.to2Decimal(shortAvgDelta) + " mg/dl " +
         "Long avg. delta: " + DecimalFormatter.to2Decimal(longAvgDelta) + " mg/dl" +
         "Range length: " + DecimalFormatter.to0Decimal(autoISF_duration) + " min " +
-        "Range average: " + DecimalFormatter.to2Decimal(autoISF_average) + " mg/dl; " +
+        "Range average: " + DecimalFormatter.to2Decimal(autoISF_average) + " mg/dl; "
+        /* +
         "5 min fit delta: " + DecimalFormatter.to2Decimal(slope05) + " mg/dl; " +
         "15 min fit delta: " + DecimalFormatter.to2Decimal(slope15) + " mg/dl; " +
         "40 min fit delta: " + DecimalFormatter.to2Decimal(slope40) + " mg/dl; " +
@@ -43,6 +44,7 @@ data class GlucoseStatus(
         "parabola last delta: " + DecimalFormatter.to2Decimal(delta_pl) + " mg/dl; " +
         "parabola next delta: " + DecimalFormatter.to2Decimal(delta_pn) + " mg/dl; " +
         "fit correlation: " + r_squ + pp_debug
+        */
 }
 
 fun GlucoseStatus.asRounded() = copy(
@@ -55,6 +57,7 @@ fun GlucoseStatus.asRounded() = copy(
     autoISF_duration = Round.roundTo(autoISF_duration, 0.1),
     autoISF_average = Round.roundTo(autoISF_average, 0.1),
     // mod 8: append 3 variables for deltas extracted from regression analysis
+    /*
     slope05 = Round.roundTo(slope05, 0.01),
     slope15 = Round.roundTo(slope15, 0.01),
     slope40 = Round.roundTo(slope40, 0.01),
@@ -63,4 +66,5 @@ fun GlucoseStatus.asRounded() = copy(
     delta_pl = Round.roundTo(delta_pl, 0.01),
     delta_pn = Round.roundTo(delta_pn, 0.01),
     r_squ = Round.roundTo(r_squ, 0.0001)
+    */
 )

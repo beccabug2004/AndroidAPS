@@ -110,6 +110,7 @@ function enable_smb(
     return false;
 }
 
+/* mod not testet
 function interpolate(xdata, profile) //, polygon)
 {   // V14: interpolate ISF behaviour based on polygons defining nonlinear functions defined by value pairs for ...
     //  ...      <-----  delta  ------->  or  <---------------  glucose  ------------------->
@@ -175,8 +176,9 @@ function interpolate(xdata, profile) //, polygon)
     else                 { newVal = newVal * profile.delta_ISFrange_weight }    // delta range
     return newVal;
 }
-
-function autoISF(sens, target_bg, profile, glucose_status, meal_data, currentTime, autosens_data, sensitivityRatio)
+*/
+//function autoISF(sens, target_bg, profile, glucose_status, meal_data, currentTime, autosens_data, sensitivityRatio)
+function autoISF(sens, target_bg, profile, glucose_status, meal_data, autosens_data, sensitivityRatio)
 {   // #### mod 7e: added switch for autoISF ON/OFF
     if ( !profile.use_autoisf ) {
         console.error("autoISF disabled in Preferences");
@@ -191,7 +193,7 @@ function autoISF(sens, target_bg, profile, glucose_status, meal_data, currentTim
     var dura05 = glucose_status.autoISF_duration;           // mod 7d
     var avg05  = glucose_status.autoISF_average;            // mod 7d
     // mod V14 dated 06.JUN.2021 starts
-    var maxISFReduction = profile.autoisf_max;              // mod 7d
+    /*var maxISFReduction = profile.autoisf_max;              // mod 7d
     var sens_modified = false;
     var pp_ISF = 1;                                         // mod 14f
     var delta_ISF = 1;                                      // mod 14f
@@ -245,6 +247,8 @@ function autoISF(sens, target_bg, profile, glucose_status, meal_data, currentTim
     }
 
     var levelISF = 1
+    */
+    /* mod autoISF not tested, folgende Zeilen müssen ersetzt werden
     var weightISF = profile.autoisf_hourlychange;           // mod 7d: specify factor directly; use factor 0 to shut autoISF OFF
     if (meal_data.mealCOB>0 && !profile.enableautoisf_with_COB) {
         console.error("autoISF by-passed; preferences disabled mealCOB of "+round(meal_data.mealCOB,1));    // mod 7f
@@ -267,9 +271,34 @@ function autoISF(sens, target_bg, profile, glucose_status, meal_data, currentTim
         var liftISF = Math.max(Math.min(maxISFReduction, Math.max(levelISF, bg_ISF, delta_ISF, pp_ISF)), sensitivityRatio);  // corrected logic on 30.Jan.2021
         sens = round(profile.sens / liftISF, 1);
     }
-    return sens;
+    return sens;*/
+    var weightISF = profile.autoisf_hourlychange;           // mod 7d: specify factor directly; use factor 0 to shut autoISF OFF
+        if (meal_data.mealCOB==0 && dura05>=10) {
+            if (avg05 > target_bg) {
+                // # fight the resistance at high levels
+                var maxISFReduction = profile.autoisf_max;      // mod 7d
+                var dura05_weight = dura05 / 60;
+                var avg05_weight = weightISF / target_bg;       // mod gz7b: provide access from AAPS
+                var levelISF = 1 + dura05_weight*avg05_weight*(avg05-target_bg);
+                var liftISF = Math.max(Math.min(maxISFReduction, levelISF), sensitivityRatio);  // corrected logic on 30.Jan.2021
+                console.error("autoISF reports", sens, "did not do it for", dura05,"m; go more aggressive by", round(levelISF,2));
+                if (maxISFReduction < levelISF) {
+                    console.error("autoISF reduction", round(levelISF,2), "limited by autoisf_max", maxISFReduction);
+                }
+                sens = round(profile.sens / liftISF, 1);
+            } else {
+                console.error("autoISF by-passed; avg. glucose", avg05, "below target", target_bg);
+            }
+        } else if (meal_data.mealCOB>0) {
+            console.error("autoISF by-passed; mealCOB of "+round(meal_data.mealCOB,1));
+        } else {
+            console.error("autoISF by-passed; BG is only "+dura05+"m at level "+avg05);
+        }
+        return sens;
+
 }
 
+/* autoISF mod not tested
 function determine_varSMBratio(profile, bg, target_bg)
 {   // mod 12: let SMB delivery ratio increase f#rom min to max depending on how much bg exceeds target
     if ( typeof profile.smb_delivery_ratio_bg_range === 'undefined' || profile.smb_delivery_ratio_bg_range === 0 ) {
@@ -292,6 +321,7 @@ function determine_varSMBratio(profile, bg, target_bg)
     console.error('SMB delivery ratio set to interpolated value', new_SMB);
     return new_SMB;
 }
+*/
 
 var determine_basal = function determine_basal(glucose_status, currenttemp, iob_data, profile, autosens_data, meal_data, tempBasalFunctions, microBolusAllowed, reservoir_data, currentTime, isSaveCgmSource) {
     var rT = {}; //short for requestedTemp
@@ -472,7 +502,8 @@ var determine_basal = function determine_basal(glucose_status, currenttemp, iob_
         //console.log(" (autosens ratio "+sensitivityRatio+")");
     }
     console.error("; CR:",profile.carb_ratio);
-    sens = autoISF(sens, target_bg, profile, glucose_status, meal_data, currentTime, autosens_data, sensitivityRatio);
+    //sens = autoISF(sens, target_bg, profile, glucose_status, meal_data, currentTime, autosens_data, sensitivityRatio);
+    sens = autoISF(sens, target_bg, profile, glucose_status, meal_data, autosens_data, sensitivityRatio);
     // compare currenttemp to iob_data.lastTemp and cancel temp if they don't match
     var lastTempAge;
     if (typeof iob_data.lastTemp !== 'undefined' ) {
@@ -582,9 +613,12 @@ var determine_basal = function determine_basal(glucose_status, currenttemp, iob_
     }
 
     // min_bg of 90 -> threshold of 65, 100 -> 70 110 -> 75, and 130 -> 85
+    /* autoISF mod not tested
     var threshold_ratio = 0.5;
     var threshold = threshold_ratio * min_bg + 20;
     threshold = round(threshold);
+    */
+    var threshold = min_bg - 0.5*(min_bg-40);
 
     //console.error(reservoir_data);
 
@@ -1266,9 +1300,15 @@ var determine_basal = function determine_basal(glucose_status, currenttemp, iob_
             var roundSMBTo = 1 / profile.bolus_increment;
             // mod 10: make the share of InsulinReq a user input
             // mod 12: make the share of InsulinReq a user configurable interpolation range
+            /* autoISF mod not tested
             var smb_ratio = determine_varSMBratio(profile, bg, target_bg);
             var microBolus = Math.min(insulinReq*smb_ratio, maxBolus);
             microBolus = Math.floor(microBolus*roundSMBTo)/roundSMBTo;
+            */
+            // mod 10: make the share of InsulinReq a user input
+            var smb_ratio = profile.smb_delivery_ratio
+            var microBolus = Math.floor(Math.min(insulinReq*smb_ratio, maxBolus)*roundSMBTo)/roundSMBTo;
+
             // calculate a long enough zero temp to eventually correct back up to target
             var smbTarget = target_bg;
             worstCaseInsulinReq = (smbTarget - (naive_eventualBG + minIOBPredBG)/2 ) / sens;
