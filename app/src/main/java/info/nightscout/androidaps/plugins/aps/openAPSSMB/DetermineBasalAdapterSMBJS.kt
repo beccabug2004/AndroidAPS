@@ -187,6 +187,13 @@ class DetermineBasalAdapterSMBJS internal constructor(private val scriptReader: 
         this.profile.put("max_daily_safety_multiplier", sp.getInt(R.string.key_openapsama_max_daily_safety_multiplier, 3))
         this.profile.put("current_basal_safety_multiplier", sp.getDouble(R.string.key_openapsama_current_basal_safety_multiplier, 4.0))
 
+        // mod 10: include SMB manipulations to be accessible in determine-basal
+        this.profile.put("smb_delivery_ratio", sp.getDouble(R.string.key_openapsama_smb_delivery_ratio, 0.5))
+        this.profile.put("smb_delivery_ratio_min", sp.getDouble(R.string.key_openapsama_smb_delivery_ratio_min, 0.5))
+        this.profile.put("smb_delivery_ratio_max", sp.getDouble(R.string.key_openapsama_smb_delivery_ratio_max, 0.9))
+        this.profile.put("smb_delivery_ratio_bg_range", sp.getDouble(R.string.key_openapsama_smb_delivery_ratio_bg_range, 40.0))
+        this.profile.put("smb_max_range_extension", sp.getDouble(R.string.key_openapsama_smb_max_range_extension, 1.2))
+
         //mProfile.put("high_temptarget_raises_sensitivity", SP.getBoolean(R.string.key_high_temptarget_raises_sensitivity, SMBDefaults.high_temptarget_raises_sensitivity));
         this.profile.put("high_temptarget_raises_sensitivity", false)
         //mProfile.put("low_temptarget_lowers_sensitivity", SP.getBoolean(R.string.key_low_temptarget_lowers_sensitivity, SMBDefaults.low_temptarget_lowers_sensitivity));
@@ -222,6 +229,7 @@ class DetermineBasalAdapterSMBJS internal constructor(private val scriptReader: 
         this.profile.put("current_basal", basalRate)
         this.profile.put("temptargetSet", tempTargetSet)
         this.profile.put("autosens_max", SafeParse.stringToDouble(sp.getString(R.string.key_openapsama_autosens_max, "1.2")))
+
         // mod 7e: can I add use autoisf here?
         this.profile.put("use_autoisf", sp.getBoolean(R.string.key_openapsama_useautoisf, false))
         // mod 7f: can I add use autoisf with COB here?
