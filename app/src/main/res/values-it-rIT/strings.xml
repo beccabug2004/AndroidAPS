@@ -57,7 +57,7 @@
     <string name="treatments_wizard_tt_label">TT</string>
     <string name="treatments_wizard_carbs_label">CHO</string>
     <string name="treatments_wizard_correction_label">Corr</string>
-    <string name="treatments_wizard_bolusiob_label">IOB da bolo</string>
+    <string name="bolus_iob_label">IOB da bolo</string>
     <string name="openapsma_run">Esegui ora</string>
     <string name="vitualpump_label">MICRO VIRTUALE</string>
     <string name="openapsma_lastrun_label">Ultima esecuzione</string>
@@ -122,9 +122,9 @@
     <string name="careportal_newnstreatment_other">Altro</string>
     <string name="careportal_newnstreatment_meter">Glucometro</string>
     <string name="careportal_newnstreatment_sensor">Sensore</string>
-    <string name="careportal_newnstreatment_carbtime_label">Offset CHO</string>
+    <string name="carb_time_label">Offset CHO</string>
     <string name="careportal_newnstreatment_duration_label">Durata</string>
-    <string name="careportal_newnstreatment_profile_label">Profilo</string>
+    <string name="profile_label">Profilo</string>
     <string name="careportal_newnstreatment_glucosetype">Tipo glicemia</string>
     <string name="overview_tempbasal_button">Basale temporanea</string>
     <string name="overview_extendedbolus_button">Bolo esteso</string>
@@ -355,7 +355,7 @@
     <string name="smscommunicator_wrongduration">Durata errata</string>
     <string name="smscommunicator_loopsuspended">Loop sospeso</string>
     <string name="smscommunicator_loopresumed">Loop ripreso</string>
-    <string name="treatments_wizard_bgtrend_label">Trend di 15min</string>
+    <string name="bg_trend_label">Trend di 15min</string>
     <string name="treatments_wizard_cob_label">COB</string>
     <string name="superbolus">Superbolo</string>
     <string name="ns_logappstartedevent">Registra l\'avvio dell\'app in NS</string>
@@ -628,7 +628,7 @@
     <string name="exitwizard">Salta configurazione guidata</string>
     <string name="setupwizard_loop_description">Premi il tasto in basso per permettere ad AndroidAPS di proporre/fare modifiche alla basale</string>
     <string name="setupwizard_sensitivity_description">Il plugin di sensibilità è usato per il rilevamento della sensibilità all\'insulina e il calcolo di COB. Per ulteriori informazioni visita:</string>
-    <string name="setupwizard_sensitivity_url">https://github.com/MilosKozak/AndroidAPS/wiki/Sensitivity-detection-and-COB</string>
+    <string name="setupwizard_sensitivity_url">https://androidaps.readthedocs.io/en/latest/Configuration/Sensitivity-detection-and-COB.html</string>
     <string name="nsclientinfotext">NSClient gestisce la connessione a Nightscout. Puoi saltare questa parte ora, ma non sarai in grado di superare gli obiettivi fino a quando non ne porterai a termine la configurazione.</string>
     <string name="diawarning">Ricorda: i nuovi profili di insulina richiedono una DIA di almeno 5h. DIA di 5-6h sui nuovi profili sono uguali a DIA di 3h sui vecchi profili di insulina.</string>
     <string name="setupwizard_aps_description">Seleziona uno degli algoritmi disponibili. Sono ordinati dal più vecchio al più recente. L\'algoritmo più recente è solitamente più potente e più aggressivo. Pertanto, se sei un nuovo utente, probabilmente dovresti iniziare con AMA e non con l\'ultimo. Non dimenticare di leggere la documentazione di OpenAPS e di configurarlo prima dell\'uso.</string>
